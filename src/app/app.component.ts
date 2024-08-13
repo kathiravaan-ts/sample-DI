@@ -1,6 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, inject } from '@angular/core';
 import { ParentComponent } from './components/parent/parent.component';
 import { AuthenticationService } from './services/authentication.service';
+import { LoggerService } from './services/logger.service';
+
+export const authProvideFactory = 
+  (loggerService: LoggerService) => new AuthenticationService(loggerService);
 
 @Component({
   selector: 'app-app',
@@ -11,13 +15,16 @@ import { AuthenticationService } from './services/authentication.service';
   providers: [
     {
       provide: AuthenticationService,
-      useFactory: () => new AuthenticationService(),
+      useFactory: authProvideFactory,
+      deps: [LoggerService],
+      multi: false
     },
   ],
 })
+
 export class AppComponent implements OnInit {
-  //private authService = Inject(AuthenticationService);
-  constructor(private authService: AuthenticationService) {}
+  authService = inject(AuthenticationService);
+
   ngOnInit(): void {
     this.authService.authLog('APP');
   }

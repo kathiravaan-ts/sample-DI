@@ -5,7 +5,7 @@ import { DuplicateLoggerService } from '../../services/duplicate-logger.service'
 
 @Component({
   selector: 'app-parent',
-  standalone: true,s
+  standalone: true,
   imports: [ChildComponent],
   templateUrl: './parent.component.html',
   styleUrl: './parent.component.css',
